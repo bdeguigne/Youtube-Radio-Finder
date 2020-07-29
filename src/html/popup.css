@@ -1,0 +1,191 @@
+html, body {
+    padding: 0;
+    width: 340px;
+    /* height: 540px; */
+    background-color: #181818;
+    color: white;
+}
+
+body {
+    font-family: 'Montserrat';
+}
+
+html, body, h2, p {
+    margin: 0;
+}
+
+main, header {
+    padding: 25px;
+}
+
+header {
+    background-color: #212121;
+    border-bottom: solid #333333;
+    box-shadow: 0px 10px 6px -8px rgba(0, 0, 0, 0.500);
+}
+
+header p {
+    font-size: 16px;
+    letter-spacing: 3px;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+main h2 {
+    margin-bottom: 1rem;
+}
+
+.album-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.actions, .right {
+    flex: 1
+}
+
+.actions-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    justify-content: space-evenly;
+    background-color: #FFD700;
+    border-radius: 50px;
+    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+}
+
+.actions-container i {
+    font-size: 20px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    color: black;
+}
+
+.album-info {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.album-info p {
+    font-size: 14px;
+}
+
+.album-cover img {
+    width: 164px;
+    border-radius: 12px;
+    box-shadow: 8px 10px 10px -6px rgba(0, 0, 0, 0.500);
+}
+
+.album-info #song-title {
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.album-info #artist-name {
+    color: #a5a5a5
+}
+
+.separator {
+    border: 1px solid #525252;
+    border-radius: 5px;
+    width: 70%;
+    margin-bottom: 1rem;
+}
+
+.card-container {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.card-container p {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card img {
+    width: 40px;
+}
+
+.card-container .card {
+    background-color: #212121;
+    height: 60px;
+    border-radius: 6px;
+    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+}
+
+.card-container .card.spotify {
+    border-top: solid 5px #1ED760;
+}
+
+.card-container .card.youtube {
+    border-top: solid 5px #d71e1e;
+}
+
+.card .card-button {
+    padding: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card .card-button i {
+    font-size: 25px;
+    padding: 8px;
+    border-radius: 20px;
+    transition: background 0.5s ease;
+    cursor: pointer
+}
+
+.card .card-button i:hover {
+    background-color: rgba(73, 73, 73, 0.295);
+}
+
+.card .card-logo {
+    padding: 8px 16px;
+    background-color: #101010;
+    border-bottom-right-radius: 6px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    top: 120%;
+    left: 50%;
+    margin-left: -60px;
+    background-color: rgba(59, 59, 59, 0.800);
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}

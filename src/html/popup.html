@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href="../../lib/fontawesome/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="./popup.css">
+    <script src="../../tesseract/tesseract.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <p>YouTube Radio <span style="font-weight: bold;">Finder</span></p>
+    </header>
+    <main>
+        <h2>Now playing</h2>
+        <div class="album-container">
+            <div class="actions">
+                <div class="actions-container">
+                    <div class="tooltip">
+                        <i class="fas fa-redo"></i>
+                        <span class="tooltip-text">Find the song</span>
+                    </div>
+                    <div class="tooltip">
+                        <i class="fas fa-crop-alt"></i>
+                        <span class="tooltip-text">Select area</span>
+                    </div>
+                </div>
+            </div>
+            <div class="album-cover">
+                <img src="../../images/cover-300.jpeg" />
+            </div>
+            <div class="right"></div>
+        </div>
+
+        <div class="album-info">
+            <p id="song-title">Emurald</p>
+            <p id="artist-name">Kupla</p>
+        </div>
+
+        <hr class="separator">
+
+        <div class="card-container">
+            <p>Spotify</p>
+            <div class="card spotify">
+                <div class="card-button">
+                    <div class="tooltip">
+                        <i class="fas fa-plus"></i>
+                        <span class="tooltip-text">Add to playlist</span>
+                    </div>
+                    <div class="tooltip">
+                        <i class="far fa-heart"></i>
+                        <span class="tooltip-text">Like song</span>
+                    </div>
+                    <div class="tooltip">
+                        <i class="fab fa-spotify"></i>
+                        <span class="tooltip-text">See album</span>
+                    </div>
+                    <div class="tooltip">
+                        <i class="fas fa-share"></i>
+                        <span class="tooltip-text">Share</span>
+                    </div>
+                </div>
+                <div class="card-logo">
+                    <img src="../../images/spotify_log.png">
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
