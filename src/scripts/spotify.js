@@ -50,8 +50,8 @@ function isLog() {
 
 function authorizeUser() {
 
-    var client_id = "275c502cf30e4a8887add5a10c8e0e52";
-    var client_secret = "bb117a0b09894d8da859f3ebbbe3ec69"
+    var client_id = "";
+    var client_secret = ""
     var scopes = 'user-read-private user-read-email';
     var redirect_uri = chrome.identity.getRedirectURL("spotifycallback");
 
