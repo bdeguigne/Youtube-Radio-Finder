@@ -14,63 +14,120 @@
         <p>YouTube Radio <span style="font-weight: bold;">Finder</span></p>
     </header>
     <main>
-        <h2>Now playing</h2>
-        <div class="album-container">
-            <div class="actions">
-                <div class="actions-container">
-                    <div class="tooltip">
-                        <i class="fas fa-redo"></i>
-                        <span class="tooltip-text">Find the song</span>
-                    </div>
-                    <div class="tooltip">
-                        <i class="fas fa-crop-alt"></i>
-                        <span class="tooltip-text">Select area</span>
-                    </div>
+
+        <!-- Default Content, When they are no data on the current video -->
+
+        <div id="default-container">
+            <h2 style="font-weight: bold;">No area selected on this video</h2>
+            <p style="margin-bottom: 1rem;">Click on the button below and select the area where the song title appear
+            </p>
+            <div class="crop-button-container">
+                <div id="cropButton-default" class="crop-button">
+                    <i class="fas fa-crop-alt"></i>
+                    <p>Select area</p>
                 </div>
             </div>
-            <div class="album-cover">
-                <img src="../../images/cover-300.jpeg" />
+
+            <hr class="separator">
+
+            <div class="instructions-container">
+                <i class="fas fa-info-circle"></i>
+                <p>All instructions with images are explained here.</p>
             </div>
-            <div class="right"></div>
         </div>
 
-        <div class="album-info">
-            <p id="song-title">Emurald</p>
-            <p id="artist-name">Kupla</p>
-        </div>
+        <!-- Main Content, When the user has selected an area on the video -->
 
-        <hr class="separator">
-
-        <div class="card-container">
-            <p>Spotify</p>
-            <div class="card spotify">
-                <div class="card-button">
-                    <div class="tooltip">
-                        <i class="fas fa-plus"></i>
-                        <span class="tooltip-text">Add to playlist</span>
-                    </div>
-                    <div class="tooltip">
-                        <i class="far fa-heart"></i>
-                        <span class="tooltip-text">Like song</span>
-                    </div>
-                    <div class="tooltip">
-                        <i class="fab fa-spotify"></i>
-                        <span class="tooltip-text">See album</span>
-                    </div>
-                    <div class="tooltip">
-                        <i class="fas fa-share"></i>
-                        <span class="tooltip-text">Share</span>
+        <div id="main-container">
+            <div id="titleContainer">
+                <h2 style="font-weight: 500;">Now playing</h2>
+                <form id="fakeForm">
+                    <span id="hideInput"></span><input type="text" id="song-result" autocomplete="off">
+                </form>
+            </div>
+            <div class="album-container">
+                <div class="actions">
+                    <div class="actions-container">
+                        <div class="tooltip-top">
+                            <i id="reloadButton" class="rounded-button black fas fa-redo"></i>
+                            <span class="tooltip-text-top">Find the current song</span>
+                        </div>
+                        <div class="tooltip bottom">
+                            <i id="cropButton" class="rounded-button black fas fa-crop-alt"></i>
+                            <span class="tooltip-text">Select area</span>
+                        </div>
                     </div>
                 </div>
-                <div class="card-logo">
-                    <img src="../../images/spotify_log.png">
+                <div class="album-cover">
+                    <img id="spotify-cover" src="../../images/cover-300.jpeg" />
+                </div>
+                <div class="right"></div>
+            </div>
+
+            <div class="album-info">
+                <p id="song-title">Emurald</p>
+                <p id="artist-name">Kupla</p>
+            </div>
+
+            <hr class="separator">
+
+            <div id="connect-container">
+                <p>
+                    Please login with your favorite media account in order to add the song in your playlist and more !
+                </p>
+
+                <div id="spotify-login" class="connect-button spotify">
+                    <i class="fab fa-spotify"></i>
+                    <span>Login with Spotify</span>
+                </div>
+
+                <div class="connect-button">
+                    <i class="fab fa-youtube"></i>
+                    <span>Login with Google</span>
                 </div>
             </div>
+
+            <div id="spotify-container" style="display: none;">
+                <div class="card-container">
+                    <p>Spotify</p>
+                    <div class="card spotify">
+                        <div class="card-button">
+                            <div class="tooltip">
+                                <i id="spotify-playlist" class="rounded-button fas fa-plus"></i>
+                                <span id="playlist-tooltip" class="tooltip-text">Add to playlist</span>
+                                <div id="choose-playlist" class="playlist-container">
+                                    <div class="close-list-playlist">
+                                        <i id="close-playlist-button" class="fas fa-times"></i>
+                                    </div>
+                                    <nav>
+                                        <ul id="playlist-list">
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div id="spotify-like" class="tooltip">
+                                <i class="rounded-button far fa-heart"></i>
+                                <span class="tooltip-text">Like song</span>
+                            </div>
+                            <div id="spotify-album" class="tooltip">
+                                <i class="rounded-button fab fa-spotify"></i>
+                                <span class="tooltip-text">See album</span>
+                            </div>
+                        </div>
+                        <div class="card-logo">
+                            <img src="../../images/spotify_log.png">
+                        </div>
+                    </div>
+                </div>
+                <button id="disconnectSpotifyBtn">Disconnect</button>
+            </div>
+
         </div>
     </main>
 
     <script src="../../config.js"></script>
-
+    <script src="../scripts/spotify.js"></script>
+    <script src=" ../scripts/popup.js"></script>
 </body>
 
 </html>

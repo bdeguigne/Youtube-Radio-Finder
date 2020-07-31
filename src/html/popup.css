@@ -1,8 +1,9 @@
-html, body {
+html,
+body {
     padding: 0;
     width: 340px;
     /* height: 540px; */
-    background-color: #181818;
+    background-color: #2D2D2D;
     color: white;
 }
 
@@ -10,23 +11,59 @@ body {
     font-family: 'Montserrat';
 }
 
-html, body, h2, p {
+html,
+body,
+h2,
+p {
     margin: 0;
 }
 
-main, header {
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(41, 41, 41);
+    border-radius: 10px;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: #ffd900d3;
+    border-radius: 10px;
+    opacity: 0.8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ffd900;
+}
+
+main,
+header {
     padding: 25px;
 }
 
 header {
-    background-color: #212121;
-    border-bottom: solid #333333;
+    background-color: #393939;
+    border-bottom: solid rgb(88, 88, 88);
     box-shadow: 0px 10px 6px -8px rgba(0, 0, 0, 0.500);
 }
 
 header p {
     font-size: 16px;
     letter-spacing: 3px;
+}
+
+#main-container {
+    display: none;
 }
 
 main {
@@ -39,6 +76,159 @@ main h2 {
     margin-bottom: 1rem;
 }
 
+#default-container {
+    padding: 0px 20px;
+    display: block;
+    text-align: center;
+}
+
+#default-container h2 {
+    margin-bottom: 2rem;
+}
+
+.crop-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.crop-button {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 60%;
+    color: black;
+    border-radius: 50px;
+    padding: 5px;
+    background-color: #FFD700;
+    opacity: 0.8;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+}
+
+.crop-button:hover {
+    opacity: 1;
+}
+
+.crop-button p {
+    margin: 0 !important;
+    font-size: 18px;
+    font-weight: bolder;
+    margin-top: 6px !important;
+}
+
+.crop-button i {
+    font-size: 35px;
+}
+
+.instructions-container {
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 10px;
+    padding: 8px;
+    transition: all 0.5s ease;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.instructions-container:hover {
+    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+    opacity: 1;
+}
+
+.instructions-container i {
+    font-size: 22px;
+}
+
+.instructions-container p {
+    margin: 0px
+}
+
+#connect-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#connect-container p {
+    margin-bottom: 1rem;
+    width: 283px;
+    text-align: center;
+    font-weight: normal;
+}
+
+.connect-button {
+    color: black;
+    border-radius: 50px;
+    padding: 8px 16px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.5s ease;
+}
+
+.connect-button:hover {
+    opacity: 1;
+}
+
+.connect-button i {
+    font-size: 20px;
+    margin-right: 14px;
+}
+
+.connect-button span {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.connect-button.spotify {
+    background-color: #1ED760;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+#hideInput,
+#song-result {
+    font: inherit;
+    margin: 0;
+    padding: 5px;
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 8px;
+    background-color: #2D2D2D;
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+#hideInput {
+    /* position: absolute; */
+    padding: 5px;
+    /* height: 0; */
+    position: fixed;
+    top: -100vh;
+    overflow: hidden;
+    white-space: pre;
+}
+
+#song-result {
+    color: white;
+    border: none;
+    min-width: 10px;
+}
+
+#titleContainer {
+    text-align: center;
+}
+
 .album-container {
     display: flex;
     width: 100%;
@@ -46,7 +236,8 @@ main h2 {
     margin-bottom: 1rem;
 }
 
-.actions, .right {
+.actions,
+.right {
     flex: 1
 }
 
@@ -123,7 +314,7 @@ main h2 {
 }
 
 .card-container .card {
-    background-color: #212121;
+    background-color: #393939;
     height: 60px;
     border-radius: 6px;
     box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
@@ -138,22 +329,29 @@ main h2 {
 }
 
 .card .card-button {
-    padding: 16px;
+    /* padding: 16px; */
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
 
-.card .card-button i {
-    font-size: 25px;
+.rounded-button {
     padding: 8px;
-    border-radius: 20px;
+    border-radius: 150px;
     transition: background 0.5s ease;
     cursor: pointer
 }
 
-.card .card-button i:hover {
-    background-color: rgba(73, 73, 73, 0.295);
+.rounded-button:hover {
+    background-color: #1010106b;
+}
+
+.rounded-button.black:hover {
+    background-color: #ffffff6b;
+}
+
+.card .card-button i {
+    font-size: 25px;
 }
 
 .card .card-logo {
@@ -162,9 +360,19 @@ main h2 {
     border-bottom-right-radius: 6px;
 }
 
-.tooltip {
+.tooltip,
+.tooltip-top {
     position: relative;
     display: inline-block;
+}
+
+.tooltip.bottom .tooltip-text {
+    left: 150%
+}
+
+.card-button .tooltip {
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .tooltip .tooltip-text {
@@ -173,7 +381,7 @@ main h2 {
     top: 120%;
     left: 50%;
     margin-left: -60px;
-    background-color: rgba(59, 59, 59, 0.800);
+    background-color: #101010d5;
     color: #fff;
     text-align: center;
     padding: 5px 0;
@@ -185,7 +393,90 @@ main h2 {
     z-index: 1;
 }
 
+.tooltip-top .tooltip-text-top {
+    visibility: hidden;
+    width: 120px;
+    bottom: 120%;
+    left: 140%;
+    margin-left: -60px;
+    background-color: #101010d5;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip-top:hover .tooltip-text-top {
+    visibility: visible;
+    opacity: 1;
+}
+
 .tooltip:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
+}
+
+.tooltip .playlist-container {
+    visibility: hidden;
+    /* top: -80px; */
+    top: -185px;
+    left: 105%;
+    text-align: center;
+    background-color: #101010ef;
+    /* padding: 5px 0px 5px 0; */
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+    transition: opacity 0.5s;
+    opacity: 0;
+}
+
+.tooltip .playlist-container::after {
+    content: "";
+    position: absolute;
+    top: 90%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #101010d5 transparent transparent;
+}
+
+.playlist-container nav ul {
+    margin: 0px;
+    padding: 0px 0px;
+    list-style: none;
+    height: 200px;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.playlist-container li {
+    /* padding-top: 16px; */
+    padding: 10px 20px;
+    min-height: 16px;
+    cursor: pointer;
+}
+
+.playlist-container li:hover {
+    background-color: #2e2e2ec7;
+}
+
+.close-list-playlist {
+    /* background-color: #242424d5; */
+    border-bottom: solid #464646d5;
+    padding: 0px 5px;
+    text-align: right;
+    box-shadow: 0px 10px 6px -8px rgba(0, 0, 0, 0.500);
+}
+
+.close-list-playlist i {
+    cursor: pointer;
 }

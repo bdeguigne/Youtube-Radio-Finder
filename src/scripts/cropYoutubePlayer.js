@@ -63,7 +63,7 @@ function crop() {
 
     function cropYoutubePlayer() {
         var isNew = true;
-        chrome.storage.sync.get(["cropData"], function (res) {
+        chrome.storage.sync.get(["cropData"], function(res) {
             console.log("Current Size", res.cropData);
             cropData = res.cropData;
             if (cropData.length > 0) {
@@ -78,7 +78,7 @@ function crop() {
                             onSelect: takeCoords,
                             multi: false,
                             setSelect: [realcoords.x, realcoords.y, realcoords.x2, realcoords.y2]
-                        }, function () {
+                        }, function() {
                             jcrop_api = this;
                         })
                     }
@@ -87,16 +87,15 @@ function crop() {
                     $("#ytrf-cropperCanvas").Jcrop({
                         onSelect: takeCoords,
                         multi: false,
-                    }, function () {
+                    }, function() {
                         jcrop_api = this;
                     })
                 }
-            }
-            else if (cropData.length == 0 || isNew == true) {
+            } else if (cropData.length == 0 || isNew == true) {
                 $("#ytrf-cropperCanvas").Jcrop({
                     onSelect: takeCoords,
                     multi: false,
-                }, function () {
+                }, function() {
                     jcrop_api = this;
                 })
             }
@@ -164,6 +163,7 @@ function crop() {
             cropData.forEach(item => {
                 if (item.youtubeURL && item.youtubeURL == location.href) {
                     console.log("NOT NEW");
+                    item.isNew = false;
                     item.cropSize = crop_coords;
                     item.currentVideoSize = { w: currentWidth, h: currentHeight };
                     isNewVideo = false;
@@ -172,6 +172,7 @@ function crop() {
             if (isNewVideo == true) {
                 console.log("NEW");
                 cropData.push({
+                    isNew: true,
                     youtubeTitle: title,
                     youtubeURL: location.href,
                     cropSize: crop_coords,
