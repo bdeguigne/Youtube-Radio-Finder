@@ -41,9 +41,13 @@
         <div id="main-container">
             <div id="titleContainer">
                 <h2 style="font-weight: 500;">Now playing</h2>
-                <form id="fakeForm">
+                <div class="song-result-container">
+                    <p id="song-result" contenteditable="true"></p>
+                    <i class="fas fa-pencil-alt"></i>
+                </div>
+                <!-- <form id="fakeForm">
                     <span id="hideInput"></span><input type="text" id="song-result" autocomplete="off">
-                </form>
+                </form> -->
             </div>
             <div class="album-container">
                 <div class="actions">
@@ -60,6 +64,11 @@
                 </div>
                 <div class="album-cover">
                     <img id="spotify-cover" src="../../images/cover-300.jpeg" />
+                    <div id="cover-spinner" class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
                 </div>
                 <div class="right"></div>
             </div>
@@ -120,6 +129,17 @@
                     </div>
                 </div>
                 <button id="disconnectSpotifyBtn">Disconnect</button>
+            </div>
+
+            <!-- Snackbars -->
+
+            <div id="success-snackbar" class="snackbar success">
+                <i class="far fa-check-circle"></i>
+                <p id="success-snackbar-text">Success</p>
+            </div>
+            <div id="error-snackbar" class="snackbar error">
+                <i class="fas fa-exclamation-circle"></i>
+                <p id="error-snackbar-text">Error</p>
             </div>
 
         </div>

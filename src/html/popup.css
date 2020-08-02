@@ -46,6 +46,59 @@ p {
     background: #ffd900;
 }
 
+.spinner {
+    text-align: center;
+    display: none;
+}
+
+.spinner.show {
+    display: block;
+}
+
+.spinner>div {
+    width: 18px;
+    height: 18px;
+    background-color: #ffd900;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0)
+    }
+    40% {
+        -webkit-transform: scale(1.0)
+    }
+}
+
+@keyframes sk-bouncedelay {
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
+}
+
 main,
 header {
     padding: 25px;
@@ -64,6 +117,7 @@ header p {
 
 #main-container {
     display: none;
+    width: 100%;
 }
 
 main {
@@ -80,10 +134,21 @@ main h2 {
     padding: 0px 20px;
     display: block;
     text-align: center;
+    width: 100%;
 }
 
 #default-container h2 {
     margin-bottom: 2rem;
+}
+
+#song-result {
+    opacity: 0.7;
+    transition: opacity 0.5s ease;
+    transform: translateX(10px);
+}
+
+#song-result:focus {
+    opacity: 1;
 }
 
 .crop-button-container {
@@ -195,28 +260,33 @@ main h2 {
     margin-bottom: 1rem;
 }
 
-#hideInput,
-#song-result {
-    font: inherit;
-    margin: 0;
-    padding: 5px;
-    font-size: large;
-    font-weight: bold;
-    margin-bottom: 8px;
-    background-color: #2D2D2D;
-    outline: none;
-    cursor: pointer;
+.song-result-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     margin-bottom: 1rem;
 }
 
-#hideInput {
-    /* position: absolute; */
-    padding: 5px;
-    /* height: 0; */
-    position: fixed;
-    top: -100vh;
-    overflow: hidden;
-    white-space: pre;
+.song-result-container i {
+    z-index: 2;
+    transform: translateX(10px);
+    visibility: hidden;
+}
+
+.song-result-container:hover i {
+    visibility: visible;
+}
+
+#song-result {
+    font: inherit;
+    margin: 0;
+    font-size: large;
+    font-weight: bold;
+    background-color: #2D2D2D;
+    outline: none;
+    cursor: pointer;
+    margin-right: 6px;
 }
 
 #song-result {
@@ -268,6 +338,14 @@ main h2 {
 
 .album-info p {
     font-size: 14px;
+}
+
+.album-cover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 164px;
+    height: 164px;
 }
 
 .album-cover img {
@@ -479,4 +557,90 @@ main h2 {
 
 .close-list-playlist i {
     cursor: pointer;
+}
+
+
+/* Snackbars */
+
+.snackbar {
+    visibility: hidden;
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    text-align: center;
+    padding: 16px;
+    z-index: 2;
+    /* font-size: 17px; */
+    box-shadow: 0px 10px 6px -8px rgba(0, 0, 0, 0.500);
+}
+
+.snackbar.success {
+    background-color: rgb(113, 243, 113);
+    color: black;
+}
+
+.snackbar.error {
+    background-color: rgb(231, 12, 12);
+    color: white;
+}
+
+.snackbar i {
+    margin-right: 16px;
+    font-size: 20px;
+}
+
+.snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
 }

@@ -1,27 +1,27 @@
 var cropBtn = document.getElementById('cropButton');
 var cropBtnDefault = document.getElementById('cropButton-default');
 var titleResult = document.getElementById("song-result");
+var content = document.querySelector('[contenteditable]');
 var reloadBtn = document.getElementById("reloadButton");
-var hide = document.getElementById("hideInput");
-var formSubmit = document.getElementById("fakeForm");
 
 var defaultContainer = document.getElementById("default-container");
 var mainContainer = document.getElementById("main-container");
+var spotifyCover = document.getElementById("spotify-cover");
+var coverSpinner = document.getElementById("cover-spinner");
 
 chrome.runtime.onMessage.addListener((message, callback) => {
     if (message.from == "findSong" && message.subject == "getSong") {
         chrome.storage.local.get(["songTitle"], function(res) {
-            titleResult.value = res.songTitle
-            resize();
+            const tmpResult = titleResult.innerHTML;
+            titleResult.innerHTML = res.songTitle
+            if (tmpResult === titleResult.innerHTML) {
+                spotifyCover.style = "display:block";
+                coverSpinner.style = "display:none";
+            }
         })
     }
 })
 
-
-function resize() {
-    hide.textContent = titleResult.value;
-    titleResult.style.width = hide.offsetWidth + "px"
-}
 
 var crop = () => {
     console.log("crop")
@@ -32,35 +32,37 @@ var crop = () => {
 };
 
 var reload = () => {
+    spotifyCover.style = "display:none";
+    coverSpinner.style = "display:block";
     chrome.runtime.sendMessage({
         from: "popup",
         subject: "reload"
     })
 }
 
+var songInput = "";
+titleResult.spellcheck = false;
+content.addEventListener("input", function(event) {
+    songInput = content.textContent;
+})
 
-
-formSubmit.addEventListener("submit", function(e) {
-    titleResult.blur();
-    e.preventDefault();
-});
-
-titleResult.addEventListener("input", resize);
+content.addEventListener('keydown', function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        titleResult.blur();
+    }
+})
 
 chrome.storage.local.get(["songTitle"], function(res) {
-    titleResult.value = res.songTitle
-    resize();
+    titleResult.innerHTML = res.songTitle
 })
 
 chrome.storage.sync.get(["cropData"], function(res) {
     var historyData = res.cropData;
     var currentURL = "";
     chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {
-        console.log("OKAY TAAAB", tabs[0].url);
         currentURL = tabs[0].url;
-        console.log("CURERNT", currentURL);
         if (historyData.filter(e => e.youtubeURL === currentURL).length > 0) {
-            console.log("CONTAIN");
             defaultContainer.style = "display:none";
             mainContainer.style = "display:block";
         } else {
@@ -70,9 +72,9 @@ chrome.storage.sync.get(["cropData"], function(res) {
 })
 
 titleResult.addEventListener("blur", function() {
-    console.log("LOST FOCUS", titleResult.value);
+    const content = titleResult.textContent
     chrome.storage.local.set({
-        songTitle: titleResult.value
+        songTitle: content
     })
 });
 
@@ -90,6 +92,10 @@ chrome.storage.onChanged.addListener(function(changes) {
                 }
             });
         });
+    }
+    if (changes.spotifySong) {
+        spotifyCover.style = "display:block";
+        coverSpinner.style = "display:none";
     }
 })
 

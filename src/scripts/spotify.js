@@ -16,6 +16,8 @@ var closePlaylistBtn = document.getElementById("close-playlist-button");
 var tooltipPlaylist = document.getElementById("playlist-tooltip");
 var playlistList = document.getElementById("playlist-list");
 
+
+
 spotifyLogButton.onclick = authorizeUser;
 
 spotifyPlaylistBtn.onclick = addToPlaylist;
@@ -28,6 +30,8 @@ var client_id = config.spotify_client_id;
 var client_secret = config.spotify_client_secret;
 var spotifyData = {};
 var songData = {};
+var userPlaylist = undefined;
+
 
 function isLog() {
     chrome.storage.local.get(["spotify"], function(res) {
@@ -57,7 +61,6 @@ function isLog() {
 
     function HideLogin() {
         if (spotifyData.accessToken && spotifyData.refreshToken) {
-            console.log("IN HIDE LOGIN");
             connectContainer.style = "display:none;";
             spotifyContainer.style = "display:block;"
             searchSong(spotifyData.accessToken);
@@ -104,7 +107,6 @@ function refreshToken() {
         })
         .then(res => res.json())
         .then(credentials => {
-            console.log(credentials);
             chrome.storage.local.set({
                 spotify: {
                     accessToken: credentials.access_token,
@@ -183,20 +185,21 @@ function authorizeUser() {
 function searchSong(accessToken) {
     var token = accessToken;
     var song;
+    var isCorrected = false;
 
     disconnectSpotifyBtn.onclick = disconnectUser;
     chrome.storage.local.get(["songTitle"], function(res) {
         song = res.songTitle
-        getCurrentSong();
+        getCurrentSong(song);
     })
     chrome.storage.onChanged.addListener(function(changes) {
         if (changes.songTitle) {
             song = changes.songTitle.newValue
-            getCurrentSong();
+            getCurrentSong(song);
         }
     });
 
-    function getCurrentSong() {
+    function getCurrentSong(song) {
         request();
 
         function request() {
@@ -214,22 +217,88 @@ function searchSong(accessToken) {
                     if (data.error && data.error.message === "The access token expired") {
                         refreshToken();
                     } else if (data.tracks.items[0]) {
-                        saveSong(data.tracks.items[0])
+                        saveSong(data.tracks.items[0]);
+                        isCorrected = false;
                     } else {
-                        console.log("Not found");
-                        chrome.storage.local.set({
-                            spotifySong: {
-                                title: "Song not found",
-                                artists: "",
-                                coverUrl: "../../images/ytrf-unknown.png",
-                            }
-                        })
+                        if (isCorrected === false) {
+                            correctSong(song);
+                        } else {
+                            isCorrected = false;
+                            chrome.storage.local.set({
+                                spotifySong: {
+                                    title: "Song not found",
+                                    artists: "",
+                                    coverUrl: "../../images/ytrf-unknown.png",
+                                }
+                            })
+                        }
                     }
                 })
         }
 
+        function correctSong() {
+            console.log("TrIGGER CORRECT SONG", song);
+            const removeChars = "x w & ft";
+            const splitedRemoveChars = removeChars.split(" ");
+
+            if (song.indexOf(" - ") > -1) {
+                const splittedSong = song.split(" - ");
+                const artist = splittedSong[0];
+                const title = splittedSong[1];
+                var currentFeatSeperator = "";
+                var correctedTitle = "";
+                var isArtistFeat = true;
+
+                splitedRemoveChars.forEach(element => {
+                    if (artist.indexOf(" " + element + " ") > -1) {
+                        currentFeatSeperator = element;
+                    }
+                })
+                if (currentFeatSeperator === "") {
+                    splitedRemoveChars.forEach(element => {
+                        if (title.indexOf(" " + element + " ") > -1) {
+                            currentFeatSeperator = element;
+                            isArtistFeat = false;
+                        }
+                    })
+                }
+
+                if (currentFeatSeperator != "") {
+                    if (isArtistFeat) {
+                        const splited = artist.split(" " + currentFeatSeperator + " ");
+                        correctedTitle = splited[0] + " " + title
+                    } else {
+                        const splited = title.split(" " + currentFeatSeperator + " ");
+                        correctedTitle = splited[0] + " " + artist
+                    }
+                } else {
+                    correctedTitle = artist + " " + title
+                }
+                isCorrected = true;
+                getCurrentSong(correctedTitle);
+            } else {
+                console.log("Cannot separate artist and song");
+                isCorrected = true;
+                getCurrentSong(song);
+            }
+
+        }
+
+        function correctWithLastFM() {
+            const url = `http://ws.audioscrobbler.com/2.0/?method=track.search&track=${song}&api_key=${config.lastfm_api_key}&format=json`;
+
+            fetch(url, {
+                    method: 'GET',
+                })
+                .then(res => res.json())
+                .then(res => {
+                    const trackData = res.results.trackmatches.track[0];
+                    const title = trackData.name;
+                    const artist = trackData.artist;
+                });
+        }
+
         function saveSong(songData) {
-            console.log(songData);
             const title = songData.name;
             const coverImage = songData.album.images[1].url;
             const songId = songData.id;
@@ -284,10 +353,10 @@ function likeSong() {
                 body: JSON.stringify(data)
             })
             .then(res => {
-                console.log(res);
+                showSuccessSnackBar("Successfully like song");
             });
     } else {
-        console.log("Cannot like song");
+        showErrorSnackBar("Cannot like song");
     }
 
 }
@@ -305,6 +374,7 @@ function hidePlaylist() {
     console.log("HIDE PLAYLIST");
     choosePlaylistContainer.style = "visibility: hidden; opacity: 0;"
     tooltipPlaylist.style = "visibility: visible;"
+    playlistList.innerHTML = "";
 }
 
 function addToPlaylist() {
@@ -314,6 +384,7 @@ function addToPlaylist() {
     const headers = {
         'Authorization': "Bearer " + spotifyData.accessToken,
     };
+
     fetch(url, {
             method: 'GET',
             headers: headers,
@@ -326,15 +397,15 @@ function addToPlaylist() {
                 const playlistID = element.id;
                 var entry = document.createElement("li");
                 entry.onclick = function() {
-                    onClickPlaylist(playlistID);
+                    onClickPlaylist(playlistID, playlistName);
                 }
                 entry.appendChild(document.createTextNode(playlistName));
                 playlistList.appendChild(entry);
             });
         });
 
-    function onClickPlaylist(playlistID) {
-        console.log("On click PLaylist", playlistID, songData);
+    function onClickPlaylist(playlistID, playlistName) {
+        console.log("On click Playlist", playlistID, songData);
         const songURI = songData.songURI;
 
         const url = `https://api.spotify.com/v1/playlists/${playlistID}/tracks`;
@@ -351,8 +422,35 @@ function addToPlaylist() {
                 headers: headers,
                 body: JSON.stringify(data)
             })
-            .then(res => {
-                console.log("ADD PLAYLIST RES", res);
-            });
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    showErrorSnackBar("Cannot add in playlist");
+                } else {
+                    showSuccessSnackBar("Successfully added in : " + playlistName);
+                }
+            })
     }
+}
+
+function showSuccessSnackBar(text) {
+    var snackbarText = document.getElementById("success-snackbar-text");
+    var successSnackbar = document.getElementById("success-snackbar");
+
+    snackbarText.innerHTML = text;
+    successSnackbar.className = "snackbar success show";
+    setTimeout(function() {
+        successSnackbar.className = successSnackbar.className.replace("show", "");
+    }, 3000);
+}
+
+function showErrorSnackBar(text) {
+    var snackbarText = document.getElementById("error-snackbar-text");
+    var errorSnackbar = document.getElementById("error-snackbar");
+
+    snackbarText.innerHTML = text;
+    errorSnackbar.className = "snackbar error show";
+    setTimeout(function() {
+        errorSnackbar.className = errorSnackbar.className.replace("show", "");
+    }, 3000);
 }
