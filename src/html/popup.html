@@ -7,11 +7,16 @@
     <link href="../../lib/fontawesome/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="./popup.css">
     <script src="../../tesseract/tesseract.min.js"></script>
+    <title>Youtube Radio Finder</title>
 </head>
 
 <body>
     <header>
-        <p>YouTube Radio <span style="font-weight: bold;">Finder</span></p>
+        <!-- <div class="logo"> -->
+        <img src="../../images/ytrf-logo-title.svg">
+        <!-- <p>YouTube Radio <span style="font-weight: bold;">Finder</span></p> -->
+        <!-- </div> -->
+        <i id="settings-button" class="fas fa-cog"></i>
     </header>
     <main>
 
@@ -40,59 +45,82 @@
 
         <div id="main-container">
             <div id="titleContainer">
-                <h2 style="font-weight: 500;">Now playing</h2>
-                <div class="song-result-container">
+                <div class="top-container">
+                    <div class="instructions">
+                        <div class="tooltip-right">
+                            <i class="fas fa-info-circle"></i>
+                            <span class="tooltip-right-text">If it doesn't work properly, try to increase the quality of
+                                the video</span>
+                        </div>
+                    </div>
+                    <h2 style="font-weight: 500;">Now playing</h2>
+                    <div class="right"></div>
+                </div>
+                <div id="song-result-container" class="song-result-container">
                     <p id="song-result" contenteditable="true"></p>
                     <i class="fas fa-pencil-alt"></i>
                 </div>
-                <!-- <form id="fakeForm">
-                    <span id="hideInput"></span><input type="text" id="song-result" autocomplete="off">
-                </form> -->
-            </div>
-            <div class="album-container">
-                <div class="actions">
-                    <div class="actions-container">
-                        <div class="tooltip-top">
-                            <i id="reloadButton" class="rounded-button black fas fa-redo"></i>
-                            <span class="tooltip-text-top">Find the current song</span>
-                        </div>
-                        <div class="tooltip bottom">
-                            <i id="cropButton" class="rounded-button black fas fa-crop-alt"></i>
-                            <span class="tooltip-text">Select area</span>
-                        </div>
-                    </div>
+                <div id="cover-spinner-no-connected" class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
                 </div>
-                <div class="album-cover">
-                    <img id="spotify-cover" src="../../images/cover-300.jpeg" />
-                    <div id="cover-spinner" class="spinner">
-                        <div class="bounce1"></div>
-                        <div class="bounce2"></div>
-                        <div class="bounce3"></div>
-                    </div>
-                </div>
-                <div class="right"></div>
             </div>
 
-            <div class="album-info">
-                <p id="song-title">Emurald</p>
-                <p id="artist-name">Kupla</p>
+            <div id="spotify-no-data" class="spotify-no-data">
+                <div class="actions-no-data">
+                    <div class="text-icons">
+                        <i id="reloadButton" class="rounded-button black fas fa-search"></i>
+                        <span class="tooltip-text-top">Find</span>
+                    </div>
+                    <div class="text-icons">
+                        <i id="cropButton" class="rounded-button black fas fa-crop-alt"></i>
+                        <span class="tooltip-text">Select area</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="spotify-song-data" class="spotify-song-data">
+                <div class="album-container">
+                    <div class="actions">
+                        <div class="actions-container">
+                            <div class="tooltip-top">
+                                <i id="reloadButton-connect" class="rounded-button black fas fa-search"></i>
+                                <span class="tooltip-text-top">Find the current song</span>
+                            </div>
+                            <div class="tooltip bottom">
+                                <i id="cropButton-connect" class="rounded-button black fas fa-crop-alt"></i>
+                                <span class="tooltip-text">Select area</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="album-cover">
+                        <img id="spotify-cover" src="../../images/cover-300.jpeg" />
+                        <div id="cover-spinner" class="spinner">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                    </div>
+                    <div class="right"></div>
+                </div>
+
+                <div class="album-info">
+                    <p id="song-title">Emurald</p>
+                    <p id="artist-name">Kupla</p>
+                </div>
             </div>
 
             <hr class="separator">
 
             <div id="connect-container">
                 <p>
-                    Please login with your favorite media account in order to add the song in your playlist and more !
+                    Please login with your Spotify account in order to add the song in your playlist and more !
                 </p>
 
                 <div id="spotify-login" class="connect-button spotify">
                     <i class="fab fa-spotify"></i>
                     <span>Login with Spotify</span>
-                </div>
-
-                <div class="connect-button">
-                    <i class="fab fa-youtube"></i>
-                    <span>Login with Google</span>
                 </div>
             </div>
 
@@ -108,10 +136,25 @@
                                     <div class="close-list-playlist">
                                         <i id="close-playlist-button" class="fas fa-times"></i>
                                     </div>
-                                    <nav>
+                                    <nav id="nav-playlist" style="display: none;">
                                         <ul id="playlist-list">
                                         </ul>
                                     </nav>
+                                    <div id="playlist-spinner" class="playlist-spinner-container">
+                                        <div class="spinner show">
+                                            <div class="bounce1"></div>
+                                            <div class="bounce2"></div>
+                                            <div class="bounce3"></div>
+                                        </div>
+                                    </div>
+                                    <div id="playlist-permission" class="playlist-permission-container">
+                                        <p>This song already exist in your playlist</p>
+                                        <p>Add this song anyway ?</p>
+                                        <div class="permission-button">
+                                            <i id="permission-yes" class="fas fa-check"></i>
+                                            <i id="permission-no" class="fas fa-times"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div id="spotify-like" class="tooltip">
@@ -128,7 +171,7 @@
                         </div>
                     </div>
                 </div>
-                <button id="disconnectSpotifyBtn">Disconnect</button>
+
             </div>
 
             <!-- Snackbars -->

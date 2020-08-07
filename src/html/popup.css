@@ -18,6 +18,27 @@ p {
     margin: 0;
 }
 
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header img {
+    width: 250px;
+}
+
+header i {
+    font-size: large;
+    opacity: 0.6;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+}
+
+header i:hover {
+    opacity: 1;
+}
+
 
 /* width */
 
@@ -75,6 +96,14 @@ p {
     animation-delay: -0.16s;
 }
 
+.playlist-spinner-container {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 @-webkit-keyframes sk-bouncedelay {
     0%,
     80%,
@@ -124,10 +153,6 @@ main {
     display: flex;
     align-items: center;
     flex-direction: column;
-}
-
-main h2 {
-    margin-bottom: 1rem;
 }
 
 #default-container {
@@ -299,6 +324,17 @@ main h2 {
     text-align: center;
 }
 
+.top-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.top-container h2 {
+    width: 100%;
+}
+
 .album-container {
     display: flex;
     width: 100%;
@@ -306,8 +342,30 @@ main h2 {
     margin-bottom: 1rem;
 }
 
+.instructions {
+    align-items: center;
+    z-index: 2;
+    position: absolute;
+}
+
+.instruction-tooltip {
+    display: flex;
+    align-items: center;
+}
+
+.instructions i {
+    font-size: 2rem;
+    opacity: 0.5;
+    transition: opacity 0.5s ease;
+}
+
+.instructions i:hover {
+    opacity: 1;
+}
+
 .actions,
-.right {
+.right,
+.instructions {
     flex: 1
 }
 
@@ -406,6 +464,15 @@ main h2 {
     border-top: solid 5px #d71e1e;
 }
 
+#spotify-container {
+    transition: opacity 0.5s ease;
+}
+
+#spotify-container.disable {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 .card .card-button {
     /* padding: 16px; */
     width: 100%;
@@ -439,7 +506,8 @@ main h2 {
 }
 
 .tooltip,
-.tooltip-top {
+.tooltip-top,
+.tooltip-right {
     position: relative;
     display: inline-block;
 }
@@ -489,6 +557,28 @@ main h2 {
     z-index: 1;
 }
 
+.tooltip-right .tooltip-right-text {
+    visibility: hidden;
+    width: 220px;
+    border-radius: 6px;
+    background-color: #101010;
+    color: #fff;
+    text-align: center;
+    position: absolute;
+    padding: 10px 0;
+    transition: opacity 0.5s;
+    opacity: 0;
+    top: -10px;
+    left: 123%;
+    z-index: 1;
+    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+}
+
+.tooltip-right:hover .tooltip-right-text {
+    visibility: visible;
+    opacity: 1;
+}
+
 .tooltip-top:hover .tooltip-text-top {
     visibility: visible;
     opacity: 1;
@@ -502,6 +592,8 @@ main h2 {
 .tooltip .playlist-container {
     visibility: hidden;
     /* top: -80px; */
+    height: 228px;
+    min-width: 140px;
     top: -185px;
     left: 105%;
     text-align: center;
@@ -513,6 +605,18 @@ main h2 {
     box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
     transition: opacity 0.5s;
     opacity: 0;
+}
+
+.tooltip-right .tooltip-right-text::after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    /* To the left of the tooltip */
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #101010 transparent transparent;
 }
 
 .tooltip .playlist-container::after {
@@ -557,6 +661,84 @@ main h2 {
 
 .close-list-playlist i {
     cursor: pointer;
+}
+
+.playlist-permission-container {
+    display: none;
+    height: 200px;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.playlist-permission-container p {
+    font-size: 0.8rem;
+    font-weight: normal;
+}
+
+.permission-button {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 1rem;
+}
+
+.permission-button i {
+    font-size: 20px !important;
+    border-style: solid;
+    padding: 5px;
+    border-radius: 20px;
+    border-width: 1px;
+    min-width: 30px;
+    opacity: 0.8;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+}
+
+.permission-button i:hover {
+    opacity: 1;
+}
+
+.permission-button i:last-child {
+    background-color: #FFD700;
+    border-style: none;
+    color: black;
+}
+
+.spotify-song-data {
+    display: none;
+}
+
+.spotify-no-data {
+    display: flex;
+    justify-content: center;
+}
+
+.actions-no-data {
+    background-color: #FFD700;
+    border-radius: 50px;
+    color: black;
+    display: flex;
+    padding: 5px 10px;
+    margin: 2rem 0;
+}
+
+.text-icons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 10px;
+    min-width: 70px;
+}
+
+.text-icons i {
+    font-size: 1.5rem;
+}
+
+.text-icons span {
+    text-align: center;
+    margin: auto;
+    font-weight: bold;
+    font-size: 1rem;
 }
 
 

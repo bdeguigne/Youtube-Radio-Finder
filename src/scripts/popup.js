@@ -1,13 +1,17 @@
 var cropBtn = document.getElementById('cropButton');
 var cropBtnDefault = document.getElementById('cropButton-default');
+var cropBtnConnect = document.getElementById('cropButton-connect');
 var titleResult = document.getElementById("song-result");
 var content = document.querySelector('[contenteditable]');
 var reloadBtn = document.getElementById("reloadButton");
-
+var reloadBtnConnect = document.getElementById("reloadButton-connect");
+var settingsButton = document.getElementById("settings-button");
 var defaultContainer = document.getElementById("default-container");
 var mainContainer = document.getElementById("main-container");
 var spotifyCover = document.getElementById("spotify-cover");
 var coverSpinner = document.getElementById("cover-spinner");
+var coverSpinnerNoConnected = document.getElementById("cover-spinner-no-connected");
+var songResultContainer = document.getElementById("song-result-container");
 
 chrome.runtime.onMessage.addListener((message, callback) => {
     if (message.from == "findSong" && message.subject == "getSong") {
@@ -17,6 +21,8 @@ chrome.runtime.onMessage.addListener((message, callback) => {
             if (tmpResult === titleResult.innerHTML) {
                 spotifyCover.style = "display:block";
                 coverSpinner.style = "display:none";
+                coverSpinnerNoConnected.style = "display:none";
+                songResultContainer.style = "display:flex";
             }
         })
     }
@@ -31,6 +37,15 @@ var crop = () => {
     });
 };
 
+var reloadNoConnected = () => {
+    songResultContainer.style = "display:none";
+    coverSpinnerNoConnected.style = "display:block";
+    chrome.runtime.sendMessage({
+        from: "popup",
+        subject: "reload"
+    })
+}
+
 var reload = () => {
     spotifyCover.style = "display:none";
     coverSpinner.style = "display:block";
@@ -38,6 +53,11 @@ var reload = () => {
         from: "popup",
         subject: "reload"
     })
+}
+
+var openSettings = () => {
+    console.log("OKAY DUDE WTFFF");
+    chrome.runtime.openOptionsPage();
 }
 
 var songInput = "";
@@ -87,6 +107,7 @@ chrome.storage.onChanged.addListener(function(changes) {
             currentURL = tabs[0].url;
             data.forEach(element => {
                 if (element.youtubeURL === currentURL && element.isNew === true) {
+                    console.log("HERE");
                     defaultContainer.style = "display:none";
                     mainContainer.style = "display:block";
                 }
@@ -102,4 +123,7 @@ chrome.storage.onChanged.addListener(function(changes) {
 
 cropBtn.onclick = crop;
 cropBtnDefault.onclick = crop;
-reloadBtn.onclick = reload;
+cropBtnConnect.onclick = crop;
+reloadBtn.onclick = reloadNoConnected;
+reloadBtnConnect.onclick = reload;
+settingsButton.onclick = openSettings;

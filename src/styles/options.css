@@ -1,0 +1,514 @@
+html,
+body {
+    padding: 0;
+    background-color: #101010;
+    color: white;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: 'Montserrat';
+    display: flex;
+    flex-direction: column;
+}
+
+html,
+body,
+h2,
+h1,
+p {
+    margin: 0;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(41, 41, 41);
+    border-radius: 10px;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: #ffd900d3;
+    border-radius: 10px;
+    opacity: 0.8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ffd900;
+}
+
+a {
+    color: #ffd900;
+    opacity: 0.9;
+    transition: opacity 0.5s ease;
+}
+
+a:hover {
+    opacity: 1;
+}
+
+header {
+    padding: 32px 32px;
+    border-bottom-style: solid;
+    border-bottom-color: #363636;
+    /* border-top-left-radius: 10px;
+    border-top-right-radius: 10px; */
+    border-width: 3px;
+    box-shadow: 0px 0px 32px -8px rgba(0, 0, 0, 0.500);
+    background-color: #252525;
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+}
+
+header img {
+    width: 420px;
+}
+
+main {
+    /* padding: 16px; */
+    display: flex;
+    height: 100%;
+}
+
+nav {
+    background-color: #1A1919;
+    box-shadow: 12px 0px 10px -10px rgba(0, 0, 0, 0.500);
+    position: fixed;
+    height: 100%;
+    margin-top: 127px;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0px;
+}
+
+nav li {
+    transition: background 0.5s ease;
+    padding: 35px 35px;
+    cursor: pointer;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+nav li p {
+    transition: opacity 0.5s ease;
+    text-align: center;
+}
+
+nav li:hover {
+    background-color: #373737;
+}
+
+nav li:hover p {
+    opacity: 1;
+}
+
+nav li.active {
+    border-right: solid #ffd900 5px;
+    background-color: rgb(59, 59, 59);
+}
+
+nav li.active p {
+    opacity: 1;
+}
+
+li p {
+    /* font-weight: bold; */
+    font-size: 1.3rem;
+    opacity: 0.7;
+}
+
+.main {
+    /* padding: 16px; */
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    border-color: rgb(88, 88, 88);
+    width: 50%;
+    box-shadow: 0px 0px 32px -8px rgba(0, 0, 0, 0.500);
+}
+
+.main-container {
+    padding: 32px;
+    width: 100%;
+    flex-direction: column;
+    margin-top: 127px;
+    margin-left: 148px;
+}
+
+.main-container.about {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-container h1 {
+    font-size: 1.8rem;
+    font-weight: normal;
+    margin-bottom: 2rem;
+}
+
+.main-container p {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+hr {
+    width: 100%;
+    border-color: #5A5A5A;
+    margin-bottom: 2rem;
+}
+
+.history-cards-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.history-card {
+    margin-bottom: 2rem;
+    display: flex;
+    width: 60%;
+    background-color: #2C2828;
+    border-radius: 37px;
+    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+}
+
+.history-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 37px;
+    border-bottom-left-radius: 37px;
+    /* object-fit: cover; */
+}
+
+.thumbnail-container {
+    width: 100px;
+    height: 100px;
+    border-right-style: solid;
+    border-color: #FFD700;
+    cursor: pointer;
+}
+
+.card-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.history-content {
+    padding: 8px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.history-content p {
+    margin: 0px;
+    font-weight: bold;
+    font-size: large;
+}
+
+.history-content p:last-child {
+    opacity: 0.7;
+    font-weight: normal;
+}
+
+.remove-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
+
+.remove-button i {
+    font-size: 3rem;
+    opacity: 0.6;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+}
+
+.remove-button i:hover {
+    opacity: 1;
+}
+
+#spotify-container {
+    display: none;
+}
+
+#connected-user {
+    display: none;
+}
+
+#non-connected-user {
+    display: flex;
+}
+
+#spotify-container hr {
+    margin-bottom: 0px;
+}
+
+#about-container {
+    display: none;
+}
+
+.spotify-account-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.spotify-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2C2828;
+    border-radius: 50px;
+    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+    margin-bottom: 2rem;
+}
+
+.spotify-card p {
+    margin: 0;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.disconnect {
+    font-size: 1.5rem;
+    border-radius: 50px;
+    background-color: #FFD700;
+    color: black;
+    font-weight: bold;
+    padding: 0.7rem 2rem;
+    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+    opacity: 0.7;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+}
+
+.disconnect:hover {
+    opacity: 1;
+}
+
+#spotifyUserName {
+    font-size: large;
+    font-weight: bold;
+}
+
+.rounded-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1ED760;
+    padding: 16px;
+    border-radius: 50px;
+    opacity: 0.8;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+    min-width: 200px;
+}
+
+.rounded-button:hover {
+    opacity: 1;
+}
+
+.rounded-button i {
+    margin-right: 1rem;
+    font-size: 2rem;
+}
+
+.rounded-button p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.about-button-container {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+}
+
+.rounded-button.white {
+    background-color: white;
+    color: black;
+}
+
+.rounded-button.yellow {
+    background-color: #FFD700;
+    color: black;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.spinner {
+    text-align: center;
+    display: none;
+    margin-bottom: 2rem;
+}
+
+.spinner.show {
+    display: block;
+}
+
+.spinner>div {
+    width: 18px;
+    height: 18px;
+    background-color: #ffd900;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0)
+    }
+    40% {
+        -webkit-transform: scale(1.0)
+    }
+}
+
+@keyframes sk-bouncedelay {
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
+}
+
+
+/* Snackbars */
+
+.snackbar {
+    visibility: hidden;
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    text-align: center;
+    padding: 16px;
+    z-index: 2;
+    /* font-size: 17px; */
+    box-shadow: 0px 10px 6px -8px rgba(0, 0, 0, 0.500);
+    font-size: 1.3rem;
+}
+
+.snackbar.success {
+    background-color: rgb(113, 243, 113);
+    color: black;
+}
+
+.snackbar.error {
+    background-color: rgb(231, 12, 12);
+    color: white;
+}
+
+.snackbar i {
+    margin-right: 16px;
+    font-size: 30px;
+}
+
+.snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
