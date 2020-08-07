@@ -63,7 +63,7 @@ function crop() {
 
     function cropYoutubePlayer() {
         var isNew = true;
-        chrome.storage.sync.get(["cropData"], function (res) {
+        chrome.storage.sync.get(["cropData"], function(res) {
             console.log("Current Size", res.cropData);
             cropData = res.cropData;
             if (cropData.length > 0) {
@@ -78,7 +78,7 @@ function crop() {
                             onSelect: takeCoords,
                             multi: false,
                             setSelect: [realcoords.x, realcoords.y, realcoords.x2, realcoords.y2]
-                        }, function () {
+                        }, function() {
                             jcrop_api = this;
                         })
                     }
@@ -87,16 +87,15 @@ function crop() {
                     $("#ytrf-cropperCanvas").Jcrop({
                         onSelect: takeCoords,
                         multi: false,
-                    }, function () {
+                    }, function() {
                         jcrop_api = this;
                     })
                 }
-            }
-            else if (cropData.length == 0 || isNew == true) {
+            } else if (cropData.length == 0 || isNew == true) {
                 $("#ytrf-cropperCanvas").Jcrop({
                     onSelect: takeCoords,
                     multi: false,
-                }, function () {
+                }, function() {
                     jcrop_api = this;
                 })
             }
@@ -135,13 +134,17 @@ function crop() {
 
     function validCrop() {
         var title;
+        var thumbnailURL;
+        var channelName;
 
         getTitle();
+        getThumbnail();
         saveCropData();
         removeCrop();
 
         function getTitle() {
             var titlehead = document.querySelectorAll("h1.title");
+            channelName = document.getElementsByClassName("ytd-channel-name")[0].querySelector("a").innerHTML;
 
             function SetTitle() {
                 if (titlehead.length > 0) {
@@ -157,6 +160,17 @@ function crop() {
                 if (SetTitle() == false)
                     title = location.href;
             }
+
+        }
+
+        function getThumbnail() {
+            var video_id = window.location.search.split('v=')[1];
+            var ampersandPosition = video_id.indexOf('&');
+            if (ampersandPosition != -1) {
+                video_id = video_id.substring(0, ampersandPosition);
+            }
+            console.log("VIDEO ID", video_id);
+            thumbnailURL = `https://i.ytimg.com/vi/${video_id}/maxresdefault.jpg`;
         }
 
         function saveCropData() {
@@ -164,6 +178,7 @@ function crop() {
             cropData.forEach(item => {
                 if (item.youtubeURL && item.youtubeURL == location.href) {
                     console.log("NOT NEW");
+                    item.isNew = false;
                     item.cropSize = crop_coords;
                     item.currentVideoSize = { w: currentWidth, h: currentHeight };
                     isNewVideo = false;
@@ -172,8 +187,11 @@ function crop() {
             if (isNewVideo == true) {
                 console.log("NEW");
                 cropData.push({
+                    isNew: true,
                     youtubeTitle: title,
+                    channelName: channelName,
                     youtubeURL: location.href,
+                    thumbnailURL: thumbnailURL,
                     cropSize: crop_coords,
                     currentVideoSize: { w: currentWidth, h: currentHeight }
                 })
@@ -182,6 +200,10 @@ function crop() {
             chrome.storage.sync.set({
                 cropData: cropData
             })
+            chrome.runtime.sendMessage({
+                from: "popup",
+                subject: "reload"
+            });
         }
 
         function removeCrop() {

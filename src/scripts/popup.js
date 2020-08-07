@@ -1,23 +1,33 @@
-var bkg = chrome.extension.getBackgroundPage();
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     chrome.runtime.sendMessage('takeScreenshot');
-//     // Do something, e.g. send a message to content or background script
-// });
+var cropBtn = document.getElementById('cropButton');
+var cropBtnDefault = document.getElementById('cropButton-default');
+var cropBtnConnect = document.getElementById('cropButton-connect');
+var titleResult = document.getElementById("song-result");
+var content = document.querySelector('[contenteditable]');
+var reloadBtn = document.getElementById("reloadButton");
+var reloadBtnConnect = document.getElementById("reloadButton-connect");
+var settingsButton = document.getElementById("settings-button");
+var defaultContainer = document.getElementById("default-container");
+var mainContainer = document.getElementById("main-container");
+var spotifyCover = document.getElementById("spotify-cover");
+var coverSpinner = document.getElementById("cover-spinner");
+var coverSpinnerNoConnected = document.getElementById("cover-spinner-no-connected");
+var songResultContainer = document.getElementById("song-result-container");
 
 chrome.runtime.onMessage.addListener((message, callback) => {
     if (message.from == "findSong" && message.subject == "getSong") {
-        chrome.storage.local.get(["songTitle"], function (res) {
-            titleResult.value = res.songTitle
-            resize();
+        chrome.storage.local.get(["songTitle"], function(res) {
+            const tmpResult = titleResult.innerHTML;
+            titleResult.innerHTML = res.songTitle
+            if (tmpResult === titleResult.innerHTML) {
+                spotifyCover.style = "display:block";
+                coverSpinner.style = "display:none";
+                coverSpinnerNoConnected.style = "display:none";
+                songResultContainer.style = "display:flex";
+            }
         })
     }
 })
 
-function resize() {
-    hide.textContent = titleResult.value;
-    titleResult.style.width = hide.offsetWidth + "px"
-}
 
 var crop = () => {
     console.log("crop")
@@ -27,39 +37,93 @@ var crop = () => {
     });
 };
 
-var reload = () => {
+var reloadNoConnected = () => {
+    songResultContainer.style = "display:none";
+    coverSpinnerNoConnected.style = "display:block";
     chrome.runtime.sendMessage({
         from: "popup",
         subject: "reload"
     })
 }
 
-var cropBtn = document.getElementById('ytrf-cropButton');
-var titleResult = document.getElementById("ytrf-result");
-var reloadBtn = document.getElementById("ytrf-reloadButton");
-var hide = document.getElementById("ytrf-hideInput");
-var titleSubmit = document.getElementById("ytrf-titleSubmit");
-var formSubmit = document.getElementById("ytrf-fakeForm");
+var reload = () => {
+    spotifyCover.style = "display:none";
+    coverSpinner.style = "display:block";
+    chrome.runtime.sendMessage({
+        from: "popup",
+        subject: "reload"
+    })
+}
 
+var openSettings = () => {
+    console.log("OKAY DUDE WTFFF");
+    chrome.runtime.openOptionsPage();
+}
 
-formSubmit.addEventListener("submit", function(e) {
-    titleResult.blur();
-    e.preventDefault();
-});
-
-titleResult.addEventListener("input", resize);
-
-chrome.storage.local.get(["songTitle"], function (res) {
-    titleResult.value = res.songTitle
-    resize();
+var songInput = "";
+titleResult.spellcheck = false;
+content.addEventListener("input", function(event) {
+    songInput = content.textContent;
 })
 
-titleResult.addEventListener("blur", function () {
-    console.log("LOST FOCUS", titleResult.value);
+content.addEventListener('keydown', function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        titleResult.blur();
+    }
+})
+
+chrome.storage.local.get(["songTitle"], function(res) {
+    titleResult.innerHTML = res.songTitle
+})
+
+chrome.storage.sync.get(["cropData"], function(res) {
+    var historyData = res.cropData;
+    var currentURL = "";
+    chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {
+        currentURL = tabs[0].url;
+        if (historyData.filter(e => e.youtubeURL === currentURL).length > 0) {
+            defaultContainer.style = "display:none";
+            mainContainer.style = "display:block";
+        } else {
+            console.log("NOT CONTAIN");
+        }
+    });
+})
+
+titleResult.addEventListener("blur", function() {
+    const content = titleResult.textContent
     chrome.storage.local.set({
-        songTitle: titleResult.value
+        songTitle: content
     })
-}); 
+});
+
+chrome.storage.onChanged.addListener(function(changes) {
+    console.log("CHANGESD OMMMMHHGGGG", changes);
+    if (changes.cropData) {
+        const data = changes.cropData.newValue;
+
+        chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {
+            currentURL = tabs[0].url;
+            data.forEach(element => {
+                if (element.youtubeURL === currentURL && element.isNew === true) {
+                    console.log("HERE");
+                    defaultContainer.style = "display:none";
+                    mainContainer.style = "display:block";
+                }
+            });
+        });
+    }
+    if (changes.spotifySong) {
+        spotifyCover.style = "display:block";
+        coverSpinner.style = "display:none";
+    }
+})
+
 
 cropBtn.onclick = crop;
-reloadBtn.onclick = reload;
+cropBtnDefault.onclick = crop;
+cropBtnConnect.onclick = crop;
+reloadBtn.onclick = reloadNoConnected;
+reloadBtnConnect.onclick = reload;
+settingsButton.onclick = openSettings;

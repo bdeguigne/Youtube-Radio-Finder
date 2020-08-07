@@ -1,41 +1,117 @@
 <!DOCTYPE html>
 <html>
 
-<style>
-  .avatar {
-    vertical-align: middle;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 15px;
-  }
-
-  #spotifyUserName {
-    font-size: large;
-    font-weight: bold;
-  }
-</style>
-
 <head>
+    <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href="../../lib/fontawesome/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/options.css">
+    <title>Settings</title>
 </head>
 
 <body>
-  <div>
-    <h2>History :</h2>
-    <div id="historyContainer"></div>
-  </div>
-  <div>
-    <h2>Accounts :</h2>
-    <p>Spotify Token :</p>
-    <p>Access Token = <span id="accessToken"></span></p>
-    <p>Refresh Token = <span id="refreshToken"></span></p>
-    <div style="text-align:center">
-      <img id="spotifyAvatar" class="avatar"><span id="spotifyUserName"></span>
-    </div>
-  </div>
+    <header>
+        <img src="../../images/ytrf-logo-title.svg">
+    </header>
+    <main>
+        <nav>
+            <ul>
+                <li id="nav-history" class="active">
+                    <p>History</p>
+                </li>
+                <li id="nav-spotify">
+                    <p>Spotify</p>
+                </li>
+                <li id="nav-about">
+                    <p>About</p>
+                </li>
+            </ul>
+        </nav>
+        <div id="history-container" class="main-container">
+            <h1>History</h1>
+            <p>These are all the videos you have used the extension for.</p>
+
+            <hr />
+
+            <div id="history-cards-container" class="history-cards-container">
+            </div>
+        </div>
+
+        <div id="spotify-container" class="main-container">
+            <h1>Spotify account</h1>
+            <p>You can connect or disconnect your Spotify account here.</p>
+
+            <hr />
+
+            <div id="connected-user" class="spotify-account-container">
+                <div class="spotify-card">
+                    <img id="spotify-avatar" class="avatar">
+                    <p id="spotify-username">Spotify account</p>
+                </div>
+                <div id="spotify-disconnect" class="disconnect">Log out</div>
+            </div>
+
+            <div id="non-connected-user" class="spotify-account-container">
+                <h1 id="not-logged-h1">
+                    You are not logged with Spotify
+                </h1>
+                <div id="spinner" class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+                <div class="rounded-button" id="spotify-login">
+                    <i class="fab fa-spotify"></i>
+                    <p>Login with Spotify</p>
+                </div>
+            </div>
+        </div>
+        <div id="about-container" class="main-container about">
+            <div>
+                <h1>About</h1>
+                <p>Thank you so much for using my extension, I hope you like it.</p>
+                <p>If you have any issues or suggestion you can send it here.</p>
+
+                <hr />
+
+                <p>For the image recognition i'm using the <a href="https://tesseract.projectnaptha.com/" target="_blank">TesseractJS</a> library.</p>
+                <p>I'm using the <a href="https://developer.spotify.com/" target="_blank">Spotify</a> API in order to interact with them.</p>
+                <p>All the icons was given by <a href="https://fontawesome.com/" target="_blank">Font Awesome</a>.</p>
+
+                <hr />
+
+                <p>If you want to support me you can rate my extension on the chrome web store. Or you can donate on my paypal. Thank you !</p>
+                <div class="about-button-container">
+                    <div class="rounded-button white">
+                        <i class="fab fa-chrome"></i>
+                        <p>Rate my extension</p>
+                    </div>
+                    <div class="rounded-button yellow">
+                        <i class="fab fa-paypal"></i>
+                        <p>Donate</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <p>Made with ❤ by Brice Deguigne</p>
+            </div>
+        </div>
+
+        <!-- Snackbars -->
+
+        <div id="success-snackbar" class="snackbar success">
+            <i class="far fa-check-circle"></i>
+            <p id="success-snackbar-text">Success</p>
+        </div>
+        <div id="error-snackbar" class="snackbar error">
+            <i class="fas fa-exclamation-circle"></i>
+            <p id="error-snackbar-text">Error</p>
+        </div>
+    </main>
 
 </body>
 
+<script src="../../config.js"></script>
 <script src="../scripts/options.js"></script>
 
 </html>
