@@ -70,6 +70,7 @@ header i:hover {
 .spinner {
     text-align: center;
     display: none;
+    margin-bottom: 1rem;
 }
 
 .spinner.show {

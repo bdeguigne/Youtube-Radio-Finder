@@ -117,18 +117,28 @@ function crop() {
 
         var container = document.createElement("div");
         container.id = "ytrf-cropButtonContainer";
-        container.style.position = "absolute";
-        container.style.bottom = "auto";
-        container.style.top = "100%";
+        // container.style.position = "absolute";
+        // container.style.bottom = "auto";
+        // container.style.top = "100%";
+        container.style = "display:flex;align-items:center;position: absolute;bottom: auto;top: 100%;background: #393939;padding: 0px 10px;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);"
 
-        var button = document.createElement("button");
-        button.className = "ytrf-cropButton";
-        button.innerHTML = "Ok";
-        button.style.zIndex = 1000;
-        button.style.position = "relative";
-        button.onclick = validCrop
+        var validBtn = document.createElement("img");
+        validBtn.src = chrome.runtime.getURL("images/check.svg");
+        validBtn.style = "z-index: 1000;position: relative;width: 30px;cursor: pointer;";
 
-        container.append(button);
+        var separator = document.createElement("div");
+        separator.style = "border-left: 2px solid #808080;height: 25px;margin: 0 10px;"
+
+        var closeBtn = document.createElement("img");
+        closeBtn.src = chrome.runtime.getURL("images/close.svg");
+        closeBtn.style = "z-index: 1000;position: relative;width: 25px;cursor: pointer;";
+
+        validBtn.onclick = validCrop;
+        closeBtn.onclick = removeCrop;
+
+        container.append(validBtn);
+        container.append(separator);
+        container.append(closeBtn);
         cropElem.append(container);
     }
 
@@ -206,11 +216,12 @@ function crop() {
             });
         }
 
-        function removeCrop() {
-            jcrop_api.release();
-            jcrop_api.disable();
-            jcrop_api.destroy();
-            $("#ytrf-ScreenContainer").remove();
-        }
+    }
+
+    function removeCrop() {
+        jcrop_api.release();
+        jcrop_api.disable();
+        jcrop_api.destroy();
+        $("#ytrf-ScreenContainer").remove();
     }
 }

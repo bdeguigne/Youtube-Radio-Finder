@@ -33,7 +33,9 @@
     "web_accessible_resources": [
         "tesseract/worker.min.js",
         "tesseract/tesseract-core.wasm.js",
-        "tesseract/traineddata/*.traineddata.gz"
+        "tesseract/traineddata/*.traineddata.gz",
+        "images/check.svg",
+        "images/close.svg"
     ],
     "manifest_version": 2
 }

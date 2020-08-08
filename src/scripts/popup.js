@@ -13,6 +13,7 @@ var coverSpinner = document.getElementById("cover-spinner");
 var coverSpinnerNoConnected = document.getElementById("cover-spinner-no-connected");
 var songResultContainer = document.getElementById("song-result-container");
 
+
 chrome.runtime.onMessage.addListener((message, callback) => {
     if (message.from == "findSong" && message.subject == "getSong") {
         chrome.storage.local.get(["songTitle"], function(res) {
@@ -99,7 +100,7 @@ titleResult.addEventListener("blur", function() {
 });
 
 chrome.storage.onChanged.addListener(function(changes) {
-    console.log("CHANGESD OMMMMHHGGGG", changes);
+    console.log("CHANGESD OMGGGG", changes);
     if (changes.cropData) {
         const data = changes.cropData.newValue;
 
@@ -117,6 +118,10 @@ chrome.storage.onChanged.addListener(function(changes) {
     if (changes.spotifySong) {
         spotifyCover.style = "display:block";
         coverSpinner.style = "display:none";
+    }
+    if (changes.songTitle) {
+        coverSpinnerNoConnected.style = "display:none";
+        songResultContainer.style = "display:flex";
     }
 })
 

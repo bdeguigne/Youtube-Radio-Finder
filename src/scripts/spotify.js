@@ -19,6 +19,8 @@ var playlistSpinner = document.getElementById("playlist-spinner");
 var playlistPermission = document.getElementById("playlist-permission");
 var spotifyNoData = document.getElementById("spotify-no-data");
 var spotifySongData = document.getElementById("spotify-song-data");
+var textSpotifyLogin = document.getElementById("text-spotify-login");
+var spinnerSpotifyLogin = document.getElementById("spinner-spotify-login");
 
 spotifyLogButton.onclick = authorizeUser;
 
@@ -91,9 +93,6 @@ function refreshToken() {
 
     const url = 'https://accounts.spotify.com/api/token';
     const encodedData = window.btoa(client_id + ":" + client_secret);
-    // const encodedClientId = window.btoa(client_id);
-    // const encodedClientSecret = window.btoa(client_secret);
-    // console.log("ENCODED", encodedClientId, encodedClientSecret);
     const data = {
         grant_type: 'refresh_token',
         refresh_token: spotifyData.refreshToken
@@ -132,6 +131,8 @@ function refreshToken() {
 
 function authorizeUser() {
     var redirect_uri = chrome.identity.getRedirectURL("spotifycallback");
+    textSpotifyLogin.style = "display:none";
+    spinnerSpotifyLogin.style = "display:block";
 
     var getParams = function(url) {
         var params = {};
