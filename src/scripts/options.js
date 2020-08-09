@@ -12,7 +12,7 @@ var spotifyLoginBtn = document.getElementById("spotify-login");
 var spinner = document.getElementById("spinner");
 var notLoggedh1 = document.getElementById("not-logged-h1");
 
-var scopes = 'user-read-private user-read-email user-library-modify playlist-read-private playlist-modify-private playlist-modify-public';
+var scopes = 'user-library-modify playlist-read-private playlist-modify-private playlist-modify-public';
 var client_id = config.spotify_client_id;
 var client_secret = config.spotify_client_secret;
 
@@ -29,11 +29,9 @@ chrome.storage.local.get(["spotify"], function(res) {
 })
 
 chrome.storage.onChanged.addListener(function(changes) {
-    console.log("CHANGES", changes);
     if (changes.spotify) {
         // printSpotifyUser(changes.spotify.newValue);
         if (changes.spotify.newValue.accessToken && changes.spotify.newValue.refreshToken) {
-            console.log("ON Changed print connected USER");
             printSpotifyUser(changes.spotify.newValue);
         }
     }
@@ -43,7 +41,6 @@ function printHistory() {
     var historyCardsContainer = document.getElementById("history-cards-container");
 
     function removeCropData(data, url, element) {
-        console.log("REMOVE", url);
         data.splice(data.findIndex(item => item.youtubeURL === url), 1);
         chrome.storage.sync.set({ cropData: data })
         historyCardsContainer.removeChild(element);
@@ -92,7 +89,6 @@ function printHistory() {
     chrome.storage.sync.get(["cropData"], function(res) {
         var historyData = res.cropData;
         historyData.forEach((item) => {
-            console.log(item);
             createCard(item.thumbnailURL, item.youtubeTitle, item.channelName, item.youtubeURL, historyData);
         })
     })
@@ -117,10 +113,8 @@ function printSpotifyUser(spotifyData) {
             })
             .then((res) => res.json())
             .then(function(data) {
-                console.log("HEYYYy", data);
                 if (data.error && data.error.message === "The access token expired") {
                     refreshToken();
-                    alert("REFRESH TOKEN");
                 }
                 if (data.images[0]) {
                     spotifyAvatar.src = data.images[0].url;
@@ -136,7 +130,6 @@ function printSpotifyUser(spotifyData) {
     }
 
     function refreshToken() {
-        console.log("IN REFRESH TOKEN", spotifyData);
 
         const url = 'https://accounts.spotify.com/api/token';
         const encodedData = window.btoa(client_id + ":" + client_secret);
@@ -160,7 +153,7 @@ function printSpotifyUser(spotifyData) {
                 body: searchParams,
             })
             .catch(error => {
-                console.log("REFRESH ERROR", error);
+                showErrorSnackBar("Error, please reload the page");
             })
             .then(res => res.json())
             .then(credentials => {
@@ -176,24 +169,19 @@ function printSpotifyUser(spotifyData) {
 
 
 function disconnectUser() {
-    console.log("disconnect")
     chrome.storage.local.set({
         spotify: {
             accessToken: null,
             refreshToken: null,
         }
     })
-    console.log("before change style disconnect");
-    console.log("DISCONNECT print non connected USER");
     connectedUserContainer.style = "display:none";
     nonConnectedUserContainer.style = "display:flex"
 }
 
 function spotifyLogin() {
-    console.log("SPOTIFYLOGIN");
     notLoggedh1.style = "display:none";
     spinner.style = "display:block";
-    var scopes = 'user-read-private user-read-email user-library-modify playlist-read-private playlist-modify-private playlist-modify-public';
     var redirect_uri = chrome.identity.getRedirectURL("spotifycallback");
 
     var getParams = function(url) {
