@@ -30,7 +30,7 @@ spotifyAlbumBtn.onclick = seeAlbum;
 closePlaylistBtn.onclick = hidePlaylist;
 isLog();
 
-var scopes = 'user-read-private user-read-email user-library-modify playlist-read-private playlist-modify-private playlist-modify-public';
+var scopes = 'user-library-modify playlist-read-private playlist-modify-private playlist-modify-public';
 var client_id = config.spotify_client_id;
 var client_secret = config.spotify_client_secret;
 
@@ -42,8 +42,7 @@ var userPlaylist = undefined;
 function isLog() {
     chrome.storage.local.get(["spotify"], function(res) {
         if (res.spotify.accessToken && res.spotify.refreshToken) {
-            spotifyData = res.spotify;
-            HideLogin(spotifyData, false);
+            HideLogin(res.spotify, false);
         }
     });
     chrome.storage.local.get(["spotifySong"], function(res) {
@@ -65,9 +64,10 @@ function isLog() {
         }
     })
 
-    function HideLogin(spotifyData, isFirstConnection) {
-        console.log(spotifyData);
-        if (spotifyData.accessToken && spotifyData.refreshToken) {
+    function HideLogin(spotifyToken, isFirstConnection) {
+        spotifyData = spotifyToken;
+        console.log("HIDE LOGIN spotifyToken", spotifyToken);
+        if (spotifyToken.accessToken && spotifyToken.refreshToken) {
             if (isFirstConnection) {
                 showSuccessSnackBar("Successfully logged in");
             }
@@ -76,7 +76,7 @@ function isLog() {
             spotifyContainer.style = "display:block;";
             spotifyNoData.style = "display:none";
             spotifySongData.style = "display:block";
-            searchSong(spotifyData.accessToken);
+            searchSong(spotifyToken.accessToken);
         } else {
             console.log("IN HIDE LOGIN ELSE");
             connectContainer.style = "display:flex;";
@@ -96,9 +96,6 @@ function refreshToken() {
     const data = {
         grant_type: 'refresh_token',
         refresh_token: spotifyData.refreshToken
-            // redirect_uri: redirect_uri,
-            // client_id: client_id,
-            // client_secret: client_secret,
     };
     const headers = {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',

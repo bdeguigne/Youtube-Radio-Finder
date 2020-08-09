@@ -12,7 +12,7 @@ var spotifyLoginBtn = document.getElementById("spotify-login");
 var spinner = document.getElementById("spinner");
 var notLoggedh1 = document.getElementById("not-logged-h1");
 
-var scopes = 'user-read-private user-read-email user-library-modify playlist-read-private playlist-modify-private playlist-modify-public';
+var scopes = 'user-library-modify playlist-read-private playlist-modify-private playlist-modify-public';
 var client_id = config.spotify_client_id;
 var client_secret = config.spotify_client_secret;
 
@@ -120,7 +120,6 @@ function printSpotifyUser(spotifyData) {
                 console.log("HEYYYy", data);
                 if (data.error && data.error.message === "The access token expired") {
                     refreshToken();
-                    alert("REFRESH TOKEN");
                 }
                 if (data.images[0]) {
                     spotifyAvatar.src = data.images[0].url;
@@ -193,7 +192,6 @@ function spotifyLogin() {
     console.log("SPOTIFYLOGIN");
     notLoggedh1.style = "display:none";
     spinner.style = "display:block";
-    var scopes = 'user-read-private user-read-email user-library-modify playlist-read-private playlist-modify-private playlist-modify-public';
     var redirect_uri = chrome.identity.getRedirectURL("spotifycallback");
 
     var getParams = function(url) {
