@@ -31,7 +31,6 @@ chrome.runtime.onMessage.addListener((message, callback) => {
 
 
 var crop = () => {
-    console.log("crop")
     chrome.runtime.sendMessage({
         from: "popup",
         subject: "crop"
@@ -57,7 +56,6 @@ var reload = () => {
 }
 
 var openSettings = () => {
-    console.log("OKAY DUDE WTFFF");
     chrome.runtime.openOptionsPage();
 }
 
@@ -86,8 +84,6 @@ chrome.storage.sync.get(["cropData"], function(res) {
         if (historyData.filter(e => e.youtubeURL === currentURL).length > 0) {
             defaultContainer.style = "display:none";
             mainContainer.style = "display:block";
-        } else {
-            console.log("NOT CONTAIN");
         }
     });
 })
@@ -100,7 +96,6 @@ titleResult.addEventListener("blur", function() {
 });
 
 chrome.storage.onChanged.addListener(function(changes) {
-    console.log("CHANGESD OMGGGG", changes);
     if (changes.cropData) {
         const data = changes.cropData.newValue;
 
@@ -108,7 +103,6 @@ chrome.storage.onChanged.addListener(function(changes) {
             currentURL = tabs[0].url;
             data.forEach(element => {
                 if (element.youtubeURL === currentURL && element.isNew === true) {
-                    console.log("HERE");
                     defaultContainer.style = "display:none";
                     mainContainer.style = "display:block";
                 }

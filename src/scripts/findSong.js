@@ -29,11 +29,10 @@ function findSong() {
             fullHeight = player.videoHeight;
             playerWidth = player.style.width.replace("px", "");
             playerHeight = player.style.height.replace("px", "");
-            chrome.storage.sync.get(["cropData"], function (res) {
+            chrome.storage.sync.get(["cropData"], function(res) {
                 const cropData = res.cropData;
                 cropData.forEach(item => {
                     if (item.youtubeURL === location.href) {
-                        console.log(item.currentVideoSize.w, playerWidth)
                         var fullVideoCoords = convertCoords(item.cropSize, fullWidth, fullHeight, item.currentVideoSize.w, item.currentVideoSize.h);
                         analyzeImage(fullVideoCoords);
                     }
@@ -63,8 +62,7 @@ function findSong() {
                     data[i] = 0;
                     data[i + 1] = 0;
                     data[i + 2] = 0;
-                }
-                else {
+                } else {
                     data[i] = 255;
                     data[i + 1] = 255;
                     data[i + 2] = 255;
@@ -85,7 +83,6 @@ function findSong() {
             await worker.initialize('eng');
             const { data: { text } } = await worker.recognize(element);
 
-            console.log("RESULT", text);
             chrome.storage.local.set({ songTitle: text })
             chrome.runtime.sendMessage({
                 from: "findSong",

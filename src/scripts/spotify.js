@@ -54,7 +54,6 @@ function isLog() {
 
     chrome.storage.onChanged.addListener(function(changes) {
         if (changes.spotify) {
-            console.log("ON CHANGE SPOTIFY DATA", changes.spotify);
             HideLogin(changes.spotify.newValue, true);
         } else if (changes.spotifySong) {
             SpotifyCover.src = changes.spotifySong.newValue.coverUrl;
@@ -66,19 +65,16 @@ function isLog() {
 
     function HideLogin(spotifyToken, isFirstConnection) {
         spotifyData = spotifyToken;
-        console.log("HIDE LOGIN spotifyToken", spotifyToken);
         if (spotifyToken.accessToken && spotifyToken.refreshToken) {
             if (isFirstConnection) {
                 showSuccessSnackBar("Successfully logged in");
             }
-            console.log("IN HIDE");
             connectContainer.style = "display:none;";
             spotifyContainer.style = "display:block;";
             spotifyNoData.style = "display:none";
             spotifySongData.style = "display:block";
             searchSong(spotifyToken.accessToken);
         } else {
-            console.log("IN HIDE LOGIN ELSE");
             connectContainer.style = "display:flex;";
             spotifyContainer.style = "display:none;";
             spotifySongData.style = "display:none";
@@ -89,8 +85,6 @@ function isLog() {
 }
 
 function refreshToken() {
-    console.log("IN REFRESH TOKEN", spotifyData);
-
     const url = 'https://accounts.spotify.com/api/token';
     const encodedData = window.btoa(client_id + ":" + client_secret);
     const data = {
@@ -113,7 +107,7 @@ function refreshToken() {
             body: searchParams,
         })
         .catch(error => {
-            console.log("REFRESH ERROR", error);
+            showErrorSnackBar("Error, please reload the page.");
         })
         .then(res => res.json())
         .then(credentials => {
@@ -250,7 +244,6 @@ function searchSong(accessToken) {
         }
 
         function correctSong() {
-            console.log("TrIGGER CORRECT SONG", song);
             const removeChars = "x w & ft w/ by ft.";
             const splitedRemoveChars = removeChars.split(" ");
 
@@ -290,7 +283,6 @@ function searchSong(accessToken) {
                 isCorrected = true;
                 getCurrentSong(correctedTitle);
             } else {
-                console.log("Cannot separate artist and song");
                 isCorrected = true;
                 getCurrentSong(song);
             }
@@ -369,12 +361,11 @@ function seeAlbum() {
         const URL = songData.albumURL;
         window.open(URL, '_blank');
     } else {
-        console.log("album not found");
+        showErrorSnackBar("Album not found");
     }
 }
 
 function hidePlaylist() {
-    console.log("HIDE PLAYLIST");
     choosePlaylistContainer.style = "visibility: hidden; opacity: 0;"
     tooltipPlaylist.style = "visibility: visible;"
     playlistList.innerHTML = "";
@@ -382,7 +373,6 @@ function hidePlaylist() {
 }
 
 function addToPlaylist() {
-    console.log()
     choosePlaylistContainer.style = "visibility: visible; opacity: 1;"
     tooltipPlaylist.style = "visibility: hidden;"
     navPlaylist.style = "display:none;";
@@ -406,7 +396,6 @@ function addToPlaylist() {
                     // refreshToken();
                     // addToPlaylist();
                 } else if (data.items.length > 0) {
-                    console.log("LENGTH", data.items.length);
                     data.items.forEach(element => {
                         const playlistName = element.name;
                         const playlistID = element.id;
@@ -431,15 +420,12 @@ function addToPlaylist() {
     function onClickPlaylist(playlistID, playlistName) {
         navPlaylist.style = "display:none;";
         playlistSpinner.style = "display:flex;";
-        console.log("On click Playlist", playlistID, songData);
         const songURI = songData.songURI;
         const url = `https://api.spotify.com/v1/playlists/${playlistID}`
 
         findSongInPlaylist(url);
 
         function findSongInPlaylist(url) {
-            console.log("IN find song", url);
-            // ?fields=tracks.items(track(id))
             const headers = {
                 'Authorization': "Bearer " + spotifyData.accessToken,
             }
@@ -459,20 +445,17 @@ function addToPlaylist() {
                         } else {
                             songs = data;
                         }
-                        console.log(data, songs, songData);
                         if (songs.items) {
                             var isExist = false;
                             songs.items.forEach(element => {
                                 if (element.track.id) {
                                     if (element.track.id === songData.id) {
-                                        console.log("FIND", element.track.name);
                                         isExist = true;
                                     }
                                 } else {
                                     isExist = false;
                                 }
                             })
-                            console.log(isExist);
                             if (isExist === false && songs.next !== null) {
                                 findSongInPlaylist(songs.next);
                             } else if (isExist === false) {
@@ -512,7 +495,6 @@ function addToPlaylist() {
         }
 
         function askPermission() {
-            console.log("SONG ALREADY EXIST ASK PERMISSION");
             playlistSpinner.style = "display:none";
             navPlaylist.style = "display:none";
             playlistPermission.style = "display:flex";

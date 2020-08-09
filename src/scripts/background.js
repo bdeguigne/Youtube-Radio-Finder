@@ -28,7 +28,6 @@ chrome.runtime.onInstalled.addListener(function() {
 
 chrome.runtime.onMessage.addListener(function(message, callback) {
     if (message.from == "popup" && message.subject == "crop") {
-        console.log("THIS IS SCREENSHOT");
         chrome.tabs.executeScript(null, { file: "lib/jcrop/jquery.min.js" }, function() {
             chrome.tabs.executeScript(null, { file: "lib/jcrop/jquery.Jcrop.min.js" }, function() {
                 chrome.tabs.insertCSS(null, { file: "lib/jcrop/jquery.Jcrop.min.css" }, function() {
@@ -48,11 +47,3 @@ chrome.runtime.onMessage.addListener(function(message, callback) {
         });
     }
 });
-
-
-// chrome.webNavigation.onHistoryStateUpdated.addListener(function(data) {
-// 	chrome.tabs.get(data.tabId, function(tab) {
-//         console.log("IN TAB", tab);
-// 		// chrome.tabs.executeScript(data.tabId, {code: 'if (typeof AddScreenshotButton !== "undefined") { AddScreenshotButton(); }', runAt: 'document_start'});
-// 	});
-// }, {url: [{hostSuffix: '.youtube.com'}]});

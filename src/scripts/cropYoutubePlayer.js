@@ -35,11 +35,6 @@ function crop() {
             currentWidth = player.style.width.replace("px", "");
             currentHeight = player.style.height.replace("px", "");
 
-            console.log("player Width ", videoWidth);
-            console.log("player height ", videoHeight);
-            console.log("player Current Width ", currentWidth);
-            console.log("player Current height ", currentHeight);
-
             var playerPos = $("div.html5-video-container").offset();
             var ytrfScreenContainer = document.createElement("div");
             ytrfScreenContainer.id = "ytrf-ScreenContainer";
@@ -64,15 +59,11 @@ function crop() {
     function cropYoutubePlayer() {
         var isNew = true;
         chrome.storage.sync.get(["cropData"], function(res) {
-            console.log("Current Size", res.cropData);
             cropData = res.cropData;
             if (cropData.length > 0) {
                 cropData.forEach(item => {
                     if (item.youtubeURL == location.href) {
-                        console.log("NOT NEW");
                         isNew = false;
-                        console.log("IN ARRAY = ", item.youtubeURL);
-                        console.log("IN ARRAY = ", item.cropSize);
                         var realcoords = convertCoords(item.cropSize, currentWidth, currentHeight, item.currentVideoSize.w, item.currentVideoSize.h)
                         $("#ytrf-cropperCanvas").Jcrop({
                             onSelect: takeCoords,
@@ -106,7 +97,6 @@ function crop() {
         crop_coords = c;
         var cropButtonContainer = $("#ytrf-cropButtonContainer")[0];
         if (!cropButtonContainer) {
-            console.log("Add Button");
             addButtonToCropper();
         }
     }
@@ -179,7 +169,6 @@ function crop() {
             if (ampersandPosition != -1) {
                 video_id = video_id.substring(0, ampersandPosition);
             }
-            console.log("VIDEO ID", video_id);
             thumbnailURL = `https://i.ytimg.com/vi/${video_id}/maxresdefault.jpg`;
         }
 
@@ -187,7 +176,6 @@ function crop() {
             var isNewVideo = true;
             cropData.forEach(item => {
                 if (item.youtubeURL && item.youtubeURL == location.href) {
-                    console.log("NOT NEW");
                     item.isNew = false;
                     item.cropSize = crop_coords;
                     item.currentVideoSize = { w: currentWidth, h: currentHeight };
@@ -195,7 +183,6 @@ function crop() {
                 }
             })
             if (isNewVideo == true) {
-                console.log("NEW");
                 cropData.push({
                     isNew: true,
                     youtubeTitle: title,
