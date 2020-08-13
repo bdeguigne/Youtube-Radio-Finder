@@ -9,8 +9,11 @@ Radio Finder for YouTube™ works on every YouTube radio with just a few clicks.
 Features :
 
 ✔ All data are saved, once you have selected a specific region on the video, you don't need to do the manipulation again.
+
 ✔ Works with as many YouTube radios as you like.
+
 ✔ Save the song to your Spotify playlists or in your library ("Liked songs").
+
 ✔ You can see the current song details (album cover, song, artists) or the entire album on Spotify.
 
 Completely free and without advertising.
