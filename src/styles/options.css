@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Montserrat Regular'), local('Montserrat-Regular'), url(../../fonts/Montserrat-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Montserrat Bold'), local('Montserrat-Bold'), url(../../fonts/Montserrat-Bold.ttf) format('truetype');
+}
+
 html,
 body {
     padding: 0;
@@ -183,7 +197,8 @@ hr {
     width: 60%;
     background-color: #2C2828;
     border-radius: 37px;
-    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+    /* box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500); */
+    box-shadow: 4px 4px 16px #000000, -4px -4px 16px #302d2d;
 }
 
 .history-card img {
@@ -279,7 +294,8 @@ hr {
     align-items: center;
     background-color: #2C2828;
     border-radius: 50px;
-    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+    /* box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500); */
+    box-shadow: 4px 4px 16px #000000, -4px -4px 16px #302d2d;
     margin-bottom: 2rem;
 }
 
@@ -302,9 +318,9 @@ hr {
     border-radius: 50px;
     background-color: #FFD700;
     color: black;
-    font-weight: bold;
     padding: 0.7rem 2rem;
-    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+    /* box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500); */
+    box-shadow: 4px 4px 16px #000000, -4px -4px 16px #302d2d;
     opacity: 0.7;
     transition: opacity 0.5s ease;
     cursor: pointer;

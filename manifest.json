@@ -1,11 +1,9 @@
 {
     "name": "Radio Finder for YouTube™",
     "version": "1.0",
-    "description": "Easily save your favorite songs from YouTube radios",
+    "description": "Easily save your favourite songs from YouTube radios",
     "options_page": "src/html/options.html",
     "permissions": [
-        "*://*.youtube.com/*",
-        "https://accounts.spotify.com/*",
         "declarativeContent",
         "storage",
         "activeTab",

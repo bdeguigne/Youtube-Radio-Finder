@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Montserrat Regular'), local('Montserrat-Regular'), url(../../fonts/Montserrat-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Montserrat Bold'), local('Montserrat-Bold'), url(../../fonts/Montserrat-Bold.ttf) format('truetype');
+}
+
 html,
 body {
     padding: 0;
@@ -404,7 +418,8 @@ main {
 .album-cover img {
     width: 164px;
     border-radius: 12px;
-    box-shadow: 8px 10px 10px -6px rgba(0, 0, 0, 0.500);
+    /* box-shadow: 8px 10px 10px -6px rgba(0, 0, 0, 0.500); */
+    box-shadow: 8px 8px 16px #232323, -8px -8px 16px #373737;
 }
 
 .album-info #song-title {
@@ -441,14 +456,15 @@ main {
 }
 
 .card img {
-    width: 40px;
+    width: 41px;
 }
 
 .card-container .card {
     background-color: #393939;
     height: 60px;
     border-radius: 6px;
-    box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500);
+    /* box-shadow: 5px 10px 10px -6px rgba(0, 0, 0, 0.500); */
+    box-shadow: 8px 8px 16px #232323, -8px -8px 16px #373737;
 }
 
 .card-container .card.spotify {
