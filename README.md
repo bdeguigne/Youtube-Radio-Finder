@@ -6,6 +6,10 @@ You just need to select an area where the song title appears on the video, and l
 
 Radio Finder for YouTube™ works on every YouTube radio with just a few clicks.
 
+## Download the app on the chrome web store !
+
+[Radio Finder for Youtube™](https://chrome.google.com/webstore/detail/radio-finder-for-youtube/gjceihjelnihmoidajeogoafcgdcghhj)
+
 ### Features
 
 ✔ All data are saved, once you have selected a specific region on the video, you don't need to do the manipulation again.
